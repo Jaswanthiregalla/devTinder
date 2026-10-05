@@ -1,15 +1,34 @@
 const express = require("express");
+const connectDB = require("./config/database");
+
+const cookieParser = require("cookie-parser");
+const { authRouter } = require("./routes/authRouter");
+const { profileRouter } = require("./routes/profileRouter");
+const { requestRouter } = require("./routes/requestRouter");
+const { userRouter } = require("./routes/userRouter");
+const cors = require("cors");
+
 
 const app = express();
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+app.use(express.json());
+app.use(cookieParser());
 
-app.use("/test", (req, res) => {
-  res.send("test");
-});
+app.use("/", authRouter);
+app.use("/", profileRouter);
+app.use("/", requestRouter);
+app.use("/", userRouter);
 
-app.use("/hello", (req, res) => {
-  res.send("hello");
-});
-
-app.listen(7777, () => {
-  console.log("server is running on port 3333");
-});
+connectDB()
+  .then(() => {
+    console.log("DB Connected Successfully");
+    app.listen(7777, () => {
+      console.log("Server is running");
+    });
+  })
+  .catch((err) => {
+    console.error("DB Connection Failed", err);
+  });
