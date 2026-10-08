@@ -31,7 +31,9 @@ userRouter.get("/user/requests/received", userAuth, async (req, res) => {
     }).populate("fromUserId", USER_SAFE_DATA);
 
     if (reviewRequests.length === 0) {
-      return res.status(404).send("Requests are not found");
+      return res
+        .status(200)
+        .send({ message: "Empty Requests Found", data: reviewRequests });
     }
 
     res.json({
@@ -71,7 +73,10 @@ userRouter.get("/user/connections", userAuth, async (req, res) => {
     });
 
     if (!data.length) {
-      return res.status(404).send("No Matches Found");
+      return res.status(200).json({
+        message: "Connection Matches",
+        data,
+      });
     }
 
     res.json({

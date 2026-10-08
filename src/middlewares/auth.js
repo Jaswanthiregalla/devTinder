@@ -9,7 +9,7 @@ const userAuth = async (req, res, next) => {
     const { token } = cookies;
 
     if (!token) {
-      throw new Error("JWT is not valid");
+     return res.status(401).send("Please Login!");
     }
 
     // Validate the cookie
@@ -27,7 +27,7 @@ const userAuth = async (req, res, next) => {
     req.user = user;
     next();
   } catch (err) {
-    res.status(400).send("ERROR: " + err.message);
+    res.status(401).send("ERROR: " + err.message);
   }
 };
 
