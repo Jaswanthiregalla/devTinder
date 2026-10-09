@@ -8,6 +8,7 @@ const ConnectionRequest = require("../models/connectionRequest");
 
 const User = require("../models/user");
 
+const sendEmail = require("../utils/sendEmail");
 requestRouter.post(
   "/request/send/:status/:toUserId",
   userAuth,
@@ -47,7 +48,11 @@ requestRouter.post(
       if (isConnectionSend) {
         throw new Error("Connection can't made");
       }
+
       const data = await connectionRequest.save();
+
+      const emailResponse = await sendEmail.run();
+
       res.json({
         message: `${req.user.firstName} is ${status} in ${toUserExists.firstName}`,
         data,
