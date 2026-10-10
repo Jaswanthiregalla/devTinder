@@ -9,12 +9,12 @@ const userAuth = async (req, res, next) => {
     const { token } = cookies;
 
     if (!token) {
-     return res.status(401).send("Please Login!");
+      return res.status(401).send("Please Login!");
     }
 
     // Validate the cookie
 
-    const decodedMessage = jwt.verify(token, "DEV@Tinder315");
+    const decodedMessage = jwt.verify(token, process.env.JWT_SECRET_KEY);
 
     const { _id } = decodedMessage;
 
