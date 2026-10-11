@@ -1,4 +1,5 @@
 require("dotenv").config();
+require("./utils/cronjob.js");
 const express = require("express");
 const connectDB = require("./config/database");
 
@@ -8,6 +9,7 @@ const { profileRouter } = require("./routes/profileRouter");
 const { requestRouter } = require("./routes/requestRouter");
 const { userRouter } = require("./routes/userRouter");
 const cors = require("cors");
+const paymentRouter = require("./routes/paymentRouter.js");
 
 const app = express();
 app.use(
@@ -24,6 +26,7 @@ app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
+app.use("/", paymentRouter);
 
 connectDB()
   .then(() => {

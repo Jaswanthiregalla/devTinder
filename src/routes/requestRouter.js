@@ -52,7 +52,7 @@ requestRouter.post(
 
       const data = await connectionRequest.save();
 
-      const emailResponse = await sendEmail.run();
+      const emailResponse = await sendEmail.run("You got the friend request!!!",`${req.user.firstName} is ${status} in ${toUserExists.firstName}`);
 
       res.json({
         message: `${req.user.firstName} is ${status} in ${toUserExists.firstName}`,
