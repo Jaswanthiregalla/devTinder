@@ -50,7 +50,7 @@ authRouter.post("/login", async (req, res) => {
       const token = await user.getJWT();
 
       //Add the token to cookie and send response back to the user
-      res.cookie("token", token, { maxAge: 60 * 60 * 1000 });
+      res.cookie("token", token, { maxAge: 60 * 60 * 1000, httpOnly: true } );
       res.send(user);
     } else {
       throw new Error("Invalid Credentials");

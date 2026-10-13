@@ -8,8 +8,11 @@ const { authRouter } = require("./routes/authRouter");
 const { profileRouter } = require("./routes/profileRouter");
 const { requestRouter } = require("./routes/requestRouter");
 const { userRouter } = require("./routes/userRouter");
-const cors = require("cors");
 const paymentRouter = require("./routes/paymentRouter.js");
+const http = require("http");
+const cors = require("cors");
+const initializeSocket = require("./utils/socket.js");
+const chatRouter = require("./routes/chatRouter.js");
 
 const app = express();
 app.use(
@@ -27,11 +30,16 @@ app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
 app.use("/", paymentRouter);
+app.use("/", chatRouter);
+
+const server = http.createServer(app);
+
+initializeSocket(server);
 
 connectDB()
   .then(() => {
     console.log("DB Connected Successfully");
-    app.listen(process.env.PORT, () => {
+    server.listen(process.env.PORT, () => {
       console.log("Server is running");
     });
   })
